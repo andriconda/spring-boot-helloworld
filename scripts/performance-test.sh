@@ -18,6 +18,7 @@ sleep 10
 # Run performance tests
 echo "Running performance tests..."
 curl -X GET http://localhost:8080/actuator/health
+exit 1
 echo "Performance test completed"
 
 # Stop the application
