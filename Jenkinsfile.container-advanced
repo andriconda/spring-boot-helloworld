@@ -26,14 +26,14 @@ containerPipeline(
         'Vulnerability Report': [
             after: 'security',  // Runs after Security stage
             container: 'alpine:latest',
-            script: 'cat dependency-tree.txt',
-            continueOnFailure: true  // Just a report, don't fail pipeline
+            script: 'cat dependency-tree.txt'
+            //If this fails, pipeline fails
         ],
         'Performance Test': [
             after: 'package',  // Runs after Package stage
             container: 'maven:3.9-eclipse-temurin-17',
-            scriptFile: 'scripts/performance-test.sh'
-            // If this fails, pipeline fails
+            scriptFile: 'scripts/performance-test.sh',
+            continueOnFailure: true
         ]
     ]
 )
