@@ -1,7 +1,7 @@
 # Makefile for Jenkins Pipeline Custom Stages
 # This file allows you to inject custom stages into the Jenkins pipeline
 
-.PHONY: help before-checkout after-checkout before-clean after-clean before-build after-build before-archive after-archive test lint security-scan docker-build
+.PHONY: help before-checkout after-checkout before-clean after-clean before-build after-build before-archive test lint security-scan docker-build
 
 help:
 	@echo "Available hook targets for Jenkins pipeline:"
@@ -14,7 +14,7 @@ help:
 	@echo "  before-build    - Runs before Maven build"
 	@echo "  after-build     - Runs after Maven build"
 	@echo "  before-archive  - Runs before archiving artifacts"
-	#@echo "  after-archive   - Runs after archiving artifacts"
+	@echo "  after-archive   - Runs after archiving artifacts"
 	@echo ""
 	@echo "Custom Targets:"
 	@echo "  test            - Run additional tests"
