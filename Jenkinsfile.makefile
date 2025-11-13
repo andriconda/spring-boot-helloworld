@@ -6,7 +6,8 @@
 
 makefilePipeline(
     gitUrl: 'https://github.com/andriconda/spring-boot-helloworld.git',
-    gitBranch: 'main'
+    gitBranch: 'main',
+    mavenTool: 'Maven'  // Optional: Maven tool name configured in Jenkins
 )
 
 // MANDATORY STAGES (Platform controlled via shared library Makefiles):
