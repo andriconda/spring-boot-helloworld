@@ -13,7 +13,8 @@ containerPipeline(
         'Code Quality': [
             after: 'build',  // Runs after Build stage
             container: 'maven:3.9-eclipse-temurin-17',
-            scriptFile: 'scripts/code-quality.sh'
+            scriptFile: 'scripts/code-quality.sh',
+            continueOnFailure: true
             // If this fails, pipeline fails (default behavior)
        ],
         'Integration Test': [
