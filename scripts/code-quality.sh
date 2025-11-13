@@ -8,14 +8,14 @@ echo "=== Code Quality Checks ==="
 
 # Check code style
 echo "Running checkstyle..."
-mvn checkstyle:check || echo "Checkstyle warnings found"
+mvn checkstyle:check
 
 # Check for code smells
 echo "Running PMD..."
-mvn pmd:check || echo "PMD warnings found"
+mvn pmd:check
 
 # Check for bugs
 echo "Running SpotBugs..."
-mvn spotbugs:check || echo "SpotBugs warnings found"
+mvn spotbugs:check
 
 echo "Code quality checks completed"
