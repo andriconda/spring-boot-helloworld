@@ -55,7 +55,8 @@ after-build:
 	@echo "Running tests and quality checks..."
 	@make test
 	@make security-scan
-
+	@make docker-build
+	@make docker-run
 # Before/After Archive
 before-archive:
 	@echo "=== Before Archive Hook ==="
@@ -80,17 +81,30 @@ lint:
 	@echo "Checking for common issues..."
 	@find src -name "*.java" -type f | wc -l | xargs echo "Java files found:"
 
-# Security scan
-security-scan:
-	@echo "Running security scan..."
-	@echo "Checking for known vulnerabilities..."
-	@mvn dependency:tree
-
-# Docker build (example)
+# Docker build
 docker-build:
 	@echo "Building Docker image..."
 	@if [ -f "Dockerfile" ]; then \
-		docker build -t spring-boot-helloworld:latest .; \
+		docker build -t spring-boot-helloworld:latest . && \
+		echo "Docker image built successfully: spring-boot-helloworld:latest"; \
 	else \
 		echo "No Dockerfile found, skipping Docker build"; \
 	fi
+
+# Docker run (for testing)
+docker-run:
+	@echo "Running Docker container..."
+	@docker run -d -p 8080:8080 --name spring-boot-helloworld spring-boot-helloworld:latest
+	@echo "Container started. Access at http://localhost:8080"
+
+# Docker stop
+docker-stop:
+	@echo "Stopping Docker container..."
+	@docker stop spring-boot-helloworld || true
+	@docker rm spring-boot-helloworld || true
+
+# Docker push (example - update with your registry)
+docker-push:
+	@echo "Pushing Docker image..."
+	@docker tag spring-boot-helloworld:latest your-registry/spring-boot-helloworld:latest
+	@docker push your-registry/spring-boot-helloworld:latest
