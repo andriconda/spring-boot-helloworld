@@ -54,6 +54,7 @@ after-build:
 	@echo "=== After Build Hook ==="
 	@echo "Running tests and quality checks..."
 	@make test
+	@aws --version
 
 # Before/After Archive
 before-archive:
