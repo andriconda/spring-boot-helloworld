@@ -1,0 +1,60 @@
+// Container-Based Pipeline with Custom Stages
+// App engineers can add named custom stages with their own containers
+// Custom stages are executed dynamically at runtime based on 'after' value
+
+@Library('jenkins-shared-library') _
+
+containerPipeline(
+    gitUrl: 'https://github.com/andriconda/spring-boot-helloworld.git',
+    gitBranch: 'main',
+    
+    // Custom stages - executed dynamically at runtime
+    customStages: [
+        'Code Quality': [
+            after: 'build',  // Runs after Build stage
+            container: 'maven:3.9-eclipse-temurin-17',
+            scriptFile: 'scripts/code-quality.sh'
+        ],
+        'Integration Test': [
+            after: 'test',  // Runs after Test stage
+            container: 'maven:3.9-eclipse-temurin-17',
+            script: 'mvn verify -Pintegration-test'
+        ],
+        'Vulnerability Report': [
+            after: 'security',  // Runs after Security stage
+            container: 'alpine:latest',
+            script: 'cat dependency-tree.txt'
+        ],
+        'Performance Test': [
+            after: 'package',  // Runs after Package stage
+            container: 'maven:3.9-eclipse-temurin-17',
+            scriptFile: 'scripts/performance-test.sh'
+        ]
+    ]
+)
+
+// PIPELINE FLOW (Runtime Decision):
+// Setup
+// ↓
+// Build (mandatory)
+//   → Custom: "Code Quality" (after: build)
+// ↓
+// Test (mandatory)
+//   → Custom: "Integration Test" (after: test)
+// ↓
+// Security (mandatory)
+//   → Custom: "Vulnerability Report" (after: security)
+// ↓
+// Package (mandatory)
+//   → Custom: "Performance Test" (after: package)
+//   → Custom: "Deploy to Staging" (after: package)
+// ↓
+// Docker Build (if Dockerfile exists)
+// ↓
+// Archive
+//
+// BENEFITS:
+// ✅ Custom stages decided at runtime based on 'after' value
+// ✅ Can insert after any mandatory stage: build, test, security, package
+// ✅ No hardcoded insertion points in pipeline code
+// ✅ Maximum flexibility for app engineers

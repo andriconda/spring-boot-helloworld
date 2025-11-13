@@ -1,0 +1,28 @@
+// Container-Based Pipeline
+// NO TOOLS REQUIRED ON JENKINS!
+// Everything runs in standard containers
+
+@Library('jenkins-shared-library') _
+
+containerPipeline(
+    gitUrl: 'https://github.com/andriconda/spring-boot-helloworld.git',
+    gitBranch: 'main'
+)
+
+// MANDATORY STAGES (Platform controlled, run in FIXED containers):
+// ✓ Build       - maven:3.9-eclipse-temurin-17
+// ✓ Test        - maven:3.9-eclipse-temurin-17
+// ✓ Security    - maven:3.9-eclipse-temurin-17
+// ✓ Package     - maven:3.9-eclipse-temurin-17
+// ✓ Docker      - docker:24-cli (if Dockerfile exists)
+//
+// CUSTOM STAGES (App controlled):
+// Add custom stages with names using customStages parameter
+// See Jenkinsfile.container-advanced for examples
+//
+// BENEFITS:
+// ✅ No Maven, Java, or Make needed on Jenkins
+// ✅ Consistent build environment (fixed containers)
+// ✅ Platform controls mandatory stages
+// ✅ Apps add custom stages with names
+// ✅ Works on any Jenkins with Docker
