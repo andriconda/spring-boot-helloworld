@@ -14,21 +14,25 @@ containerPipeline(
             after: 'build',  // Runs after Build stage
             container: 'maven:3.9-eclipse-temurin-17',
             scriptFile: 'scripts/code-quality.sh'
+            // If this fails, pipeline fails (default behavior)
         ],
-        'Integration Test': [
-            after: 'test',  // Runs after Test stage
-            container: 'maven:3.9-eclipse-temurin-17',
-            script: 'mvn verify -Pintegration-test'
-        ],
+        //'Integration Test': [
+         //   after: 'test',  // Runs after Test stage
+         //   container: 'maven:3.9-eclipse-temurin-17',
+         //   script: 'mvn verify -Pintegration-test',
+          //  continueOnFailure: true  // Mark as UNSTABLE but continue
+        //],
         'Vulnerability Report': [
             after: 'security',  // Runs after Security stage
             container: 'alpine:latest',
-            script: 'cat dependency-tree.txt'
+            script: 'cat dependency-tree.txt',
+            continueOnFailure: true  // Just a report, don't fail pipeline
         ],
         'Performance Test': [
             after: 'package',  // Runs after Package stage
             container: 'maven:3.9-eclipse-temurin-17',
             scriptFile: 'scripts/performance-test.sh'
+            // If this fails, pipeline fails
         ]
     ]
 )

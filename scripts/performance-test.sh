@@ -17,7 +17,7 @@ sleep 10
 
 # Run performance tests
 echo "Running performance tests..."
-# Example: curl -X GET http://localhost:8080/actuator/health
+curl -X GET http://localhost:8080/actuator/health
 echo "Performance test completed"
 
 # Stop the application
