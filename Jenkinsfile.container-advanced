@@ -22,7 +22,7 @@ containerPipeline(
             container: 'maven:3.9-eclipse-temurin-17',
             script: 'mvn verify -Pintegration-test1',
             continueOnFailure: true  // Mark as UNSTABLE but continue
-        //],
+        ],
         'Vulnerability Report': [
             after: 'security',  // Runs after Security stage
             container: 'alpine:latest',
