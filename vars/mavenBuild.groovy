@@ -24,6 +24,28 @@ def call(Map config = [:]) {
                 }
             }
             
+            stage('Clean Cache') {
+                steps {
+                    script {
+                        echo "Cleaning build artifacts and Maven cache"
+                        sh '''
+                            # Remove target directory
+                            if [ -d "target" ]; then
+                                echo "Removing target directory..."
+                                rm -rf target
+                            fi
+                            
+                            # Clean Maven local repository cache for this project
+                            if [ -d "$HOME/.m2/repository" ]; then
+                                echo "Cleaning Maven cache..."
+                                # This removes cached artifacts to force fresh downloads
+                                mvn dependency:purge-local-repository -DreResolve=false || true
+                            fi
+                        '''
+                    }
+                }
+            }
+            
             stage('Build') {
                 steps {
                     script {
