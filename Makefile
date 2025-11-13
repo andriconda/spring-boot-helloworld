@@ -1,32 +1,68 @@
 # Makefile for Jenkins Pipeline Custom Stages
 # This file allows you to inject custom stages into the Jenkins pipeline
 
-.PHONY: help pre-build post-build test lint security-scan docker-build
+.PHONY: help before-checkout after-checkout before-clean after-clean before-build after-build before-archive after-archive test lint security-scan docker-build
 
 help:
-	@echo "Available targets for Jenkins pipeline:"
-	@echo "  pre-build       - Runs before Maven build (e.g., setup, validation)"
-	@echo "  post-build      - Runs after Maven build (e.g., tests, deployment)"
+	@echo "Available hook targets for Jenkins pipeline:"
+	@echo ""
+	@echo "Stage Hooks (before/after any stage):"
+	@echo "  before-checkout - Runs before checkout stage"
+	@echo "  after-checkout  - Runs after checkout stage"
+	@echo "  before-clean    - Runs before clean cache stage"
+	@echo "  after-clean     - Runs after clean cache stage"
+	@echo "  before-build    - Runs before Maven build"
+	@echo "  after-build     - Runs after Maven build"
+	@echo "  before-archive  - Runs before archiving artifacts"
+	#@echo "  after-archive   - Runs after archiving artifacts"
+	@echo ""
+	@echo "Custom Targets:"
 	@echo "  test            - Run additional tests"
 	@echo "  lint            - Run code quality checks"
 	@echo "  security-scan   - Run security vulnerability scans"
 	@echo "  docker-build    - Build Docker image"
 
-# Pre-build hook - runs before Maven build
-pre-build:
-	@echo "=== Running Pre-Build Tasks ==="
+# ===== STAGE HOOKS =====
+
+# Before/After Checkout
+before-checkout:
+	@echo "=== Before Checkout Hook ==="
+	@echo "Preparing workspace..."
+
+after-checkout:
+	@echo "=== After Checkout Hook ==="
+	@echo "Workspace ready, checking files..."
+	@ls -la
+
+# Before/After Clean
+before-clean:
+	@echo "=== Before Clean Hook ==="
+	@echo "Backing up important files if needed..."
+
+after-clean:
+	@echo "=== After Clean Hook ==="
+	@echo "Clean complete!"
+
+# Before/After Build
+before-build:
+	@echo "=== Before Build Hook ==="
 	@echo "Validating environment..."
 	@java -version
-	@echo "Checking Maven version..."
 	@mvn -version
-	@echo "Pre-build validation complete!"
 
-# Post-build hook - runs after Maven build
-post-build:
-	@echo "=== Running Post-Build Tasks ==="
-	@echo "Running additional tests..."
+after-build:
+	@echo "=== After Build Hook ==="
+	@echo "Running tests and quality checks..."
 	@make test
-	@echo "Post-build tasks complete!"
+
+# Before/After Archive
+before-archive:
+	@echo "=== Before Archive Hook ==="
+	@echo "Preparing artifacts for archiving..."
+
+after-archive:
+	@echo "=== After Archive Hook ==="
+	@echo "Artifacts archived successfully!"
 
 # Run tests
 test:

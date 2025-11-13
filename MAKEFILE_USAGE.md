@@ -4,26 +4,48 @@ This project uses a Makefile to inject custom stages into the Jenkins pipeline.
 
 ## How It Works
 
-The Jenkins shared library automatically detects the `Makefile` and runs specific targets at different stages of the pipeline:
+The Jenkins shared library automatically detects the `Makefile` and runs hook targets before and after each stage of the pipeline.
 
-### Pipeline Flow
+### Pipeline Flow with Hooks
 
-1. **Checkout** - Clone the repository
-2. **Clean Cache** - Clean Maven cache (if enabled)
-3. **Pre-Build Hook** - Runs `make pre-build` (if target exists)
-4. **Build** - Maven build
-5. **Post-Build Hook** - Runs `make post-build` (if target exists)
-6. **Archive** - Archive build artifacts
+1. **Before Checkout** - Runs `make before-checkout` (if exists)
+2. **Checkout** - Clone the repository
+3. **After Checkout** - Runs `make after-checkout` (if exists)
+4. **Before Clean Cache** - Runs `make before-clean` (if exists)
+5. **Clean Cache** - Clean Maven cache (if enabled)
+6. **After Clean Cache** - Runs `make after-clean` (if exists)
+7. **Before Build** - Runs `make before-build` (if exists)
+8. **Build** - Maven build
+9. **After Build** - Runs `make after-build` (if exists)
+10. **Before Archive** - Runs `make before-archive` (if exists)
+11. **Archive** - Archive build artifacts
+12. **After Archive** - Runs `make after-archive` (if exists)
 
-## Available Makefile Targets
+## Available Makefile Hook Targets
 
-### Standard Hooks
+### Before/After Checkout
+- **`before-checkout`** - Runs before git checkout
+  - Use for: workspace preparation, cleanup
+- **`after-checkout`** - Runs after git checkout
+  - Use for: file validation, dependency checks
 
-- **`pre-build`** - Runs before Maven build
-  - Use for: validation, environment checks, setup tasks
-  
-- **`post-build`** - Runs after Maven build
-  - Use for: additional tests, security scans, deployment
+### Before/After Clean Cache
+- **`before-clean`** - Runs before cache cleaning
+  - Use for: backing up important files
+- **`after-clean`** - Runs after cache cleaning
+  - Use for: verification, logging
+
+### Before/After Build
+- **`before-build`** - Runs before Maven build
+  - Use for: environment validation, code generation
+- **`after-build`** - Runs after Maven build
+  - Use for: tests, quality checks, security scans
+
+### Before/After Archive
+- **`before-archive`** - Runs before artifact archiving
+  - Use for: artifact preparation, signing
+- **`after-archive`** - Runs after artifact archiving
+  - Use for: deployment, notifications
 
 ### Custom Targets
 
