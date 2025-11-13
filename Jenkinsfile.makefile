@@ -1,0 +1,22 @@
+// Makefile-Based Pipeline
+// Platform controls mandatory stages via shared library Makefiles
+// App engineers can only add before/after hooks via app Makefile
+
+@Library('jenkins-shared-library') _
+
+makefilePipeline(
+    gitUrl: 'https://github.com/andriconda/spring-boot-helloworld.git',
+    gitBranch: 'main'
+)
+
+// MANDATORY STAGES (Platform controlled via shared library Makefiles):
+// ✓ Build       - jenkins-shared-library/stages/build/Makefile
+// ✓ Test        - jenkins-shared-library/stages/test/Makefile
+// ✓ Security    - jenkins-shared-library/stages/security/Makefile
+// ✓ Package     - jenkins-shared-library/stages/package/Makefile
+//
+// OPTIONAL HOOKS (App controlled via app repo Makefile):
+// - before-build, after-build
+// - before-test, after-test
+// - before-security, after-security
+// - before-package, after-package
