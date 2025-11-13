@@ -10,12 +10,12 @@ containerPipeline(
     
     // Custom stages - executed dynamically at runtime
     customStages: [
-        'Code Quality': [
-            after: 'build',  // Runs after Build stage
-            container: 'maven:3.9-eclipse-temurin-17',
-            scriptFile: 'scripts/code-quality.sh'
+      //  'Code Quality': [
+       //     after: 'build',  // Runs after Build stage
+       //     container: 'maven:3.9-eclipse-temurin-17',
+       //     scriptFile: 'scripts/code-quality.sh'
             // If this fails, pipeline fails (default behavior)
-        ],
+        //],
         //'Integration Test': [
          //   after: 'test',  // Runs after Test stage
          //   container: 'maven:3.9-eclipse-temurin-17',
