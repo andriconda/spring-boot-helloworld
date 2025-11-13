@@ -11,10 +11,10 @@ makefilePipeline(
 )
 
 // MANDATORY STAGES (Platform controlled via shared library Makefiles):
-// ✓ Build       - jenkins-shared-library/stages/build/Makefile
-// ✓ Test        - jenkins-shared-library/stages/test/Makefile
-// ✓ Security    - jenkins-shared-library/stages/security/Makefile
-// ✓ Package     - jenkins-shared-library/stages/package/Makefile
+// ✓ Build       - jenkins-shared-library/resources/stages/build/Makefile
+// ✓ Test        - jenkins-shared-library/resources/stages/test/Makefile
+// ✓ Security    - jenkins-shared-library/resources/stages/security/Makefile
+// ✓ Package     - jenkins-shared-library/resources/stages/package/Makefile
 //
 // OPTIONAL HOOKS (App controlled via app repo Makefile):
 // - before-build, after-build
