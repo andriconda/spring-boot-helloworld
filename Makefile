@@ -55,8 +55,6 @@ after-build:
 	@echo "Running tests and quality checks..."
 	@make test
 	@make security-scan
-	@make docker-build
-	@make docker-run
 # Before/After Archive
 before-archive:
 	@echo "=== Before Archive Hook ==="
